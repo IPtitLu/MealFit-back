@@ -26,16 +26,12 @@ Après avoir cloné le code source sur votre machine avec `git clone`, suivez ce
     npm run build
     ```
 
-### Développement
-
-Pour démarrer le serveur en mode développement avec hot-reload, tapez :
+3. Compilez le code TypeScript en JavaScript :
 
     ```bash
     npm run dev
     ```
-
-Cette commande utilisera `nodemon` et `ts-node` pour redémarrer automatiquement le serveur à chaque changement de fichier dans le répertoire source.
-
+    
 ### Utilisation
 
 Une fois que l'application est en cours d'exécution, vous pouvez accéder à l'API à l'adresse suivante par défaut :
