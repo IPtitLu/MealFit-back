@@ -26,7 +26,7 @@ Après avoir cloné le code source sur votre machine avec `git clone`, suivez ce
     npm run build
     ```
 
-3. Compilez le code TypeScript en JavaScript :
+3. Lancez le serveur de développement :
 
     ```bash
     npm run dev
