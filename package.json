@@ -1,0 +1,31 @@
+{
+  "name": "mealfit-back",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/app.js",
+    "dev": "nodemon src/app.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/IPtitLu/MealFit-back.git"
+  },
+  "author": "Lucas Perez, Bertyn Boulikou, Valentin Bouet, Douglas Barlow",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/IPtitLu/MealFit-back/issues"
+  },
+  "homepage": "https://github.com/IPtitLu/MealFit-back#readme",
+  "dependencies": {
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.20",
+    "@types/node": "^20.8.10",
+    "nodemon": "^3.0.1",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.2.2"
+  }
+}
