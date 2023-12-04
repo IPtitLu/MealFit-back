@@ -4,8 +4,7 @@
   "description": "",
   "main": "src/app.ts",
   "scripts": {
-    "start": "ts-node src/server.ts",
-    "dev": "nodemon src/server.ts"
+    "dev": "tsx watch ./src/server.ts"
   },
   "repository": {
     "type": "git",
