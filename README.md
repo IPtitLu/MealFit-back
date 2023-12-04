@@ -16,22 +16,42 @@ Après avoir cloné le code source sur votre machine avec `git clone`, suivez ce
 
 1. Installez les dépendances NPM :
 
-    ```bash
-    npm install
-    ```
+   ```bash
+   npm install
+   ```
 
-2. Compilez le code TypeScript en JavaScript :
+2. Lancez le serveur de développement :
 
-    ```bash
-    npm run build
-    ```
+   ```bash
+   npm run dev
+   ```
 
-3. Lancez le serveur de développement :
+3. Si voulez deployer
 
-    ```bash
-    npm run dev
-    ```
-    
+```bash
+   npm run build
+```
+
+## Architecture du projet
+
+L'application Back-End MealFit suit un modèle d'architecture en couches, spécifiquement le modèle Modèle-Vue-Contrôleur (MVC) avec une couche de Service supplémentaire. Voici un bref aperçu de chaque couche :
+
+### Model
+
+La couche Modèle est responsable de la gestion des données et de la logique métier. Elle interagit avec la base de données et effectue des opérations telles que la création, la lecture, la mise à jour et la suppression (CRUD) des données. Dans cette application, la couche Modèle est représentée par les modèles Mongoose, comme le modèle User dans src/models/User.ts.
+
+### Controller
+
+La couche Contrôleur gère les requêtes HTTP entrantes et envoie des réponses. Elle utilise les services pour effectuer des opérations et renvoie les résultats au client. Les contrôleurs de cette application se trouvent dans le répertoire `controllers`, comme le UserController dans src/controllers/user.controller.ts.
+
+### Service
+
+La couche Service est une couche supplémentaire qui contient la logique métier. Elle est utilisée par les contrôleurs pour effectuer des opérations. Cette couche aide à garder les contrôleurs minces et le code plus maintenable. Dans cette application, les services se trouvent dans le répertoire `services`, comme le UserService dans src/services/user.service.ts.
+
+### Routes
+
+La couche Routes est responsable de la cartographie des requêtes HTTP entrantes vers les méthodes de contrôleur appropriées. Les routes de cette application se trouvent dans le répertoire des routes, comme les routes utilisateur dans src/routes/userRoutes.ts.
+
 ### Utilisation
 
 Une fois que l'application est en cours d'exécution, vous pouvez accéder à l'API à l'adresse suivante par défaut :
