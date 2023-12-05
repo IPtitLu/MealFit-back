@@ -2,13 +2,13 @@
 import mongoose, { Schema, Document } from 'mongoose';
 import Ingredient from './Ingredient';
 
-interface IRecipeIngredient {
+export interface IRecipeIngredient {
   ingredient: mongoose.Types.ObjectId; // Reference to an Ingredient
   quantity: number;
   unit: string;
 }
 
-interface IRecipe extends Document {
+export interface IRecipe extends Document {
   title: string;
   summary: string;
   servingSize: number;
@@ -38,6 +38,5 @@ const recipeSchema = new Schema({
 
 });
 
-const Recipe = mongoose.model<IRecipe>('Recipe', recipeSchema);
+export const Recipe = mongoose.model<IRecipe>('Recipe', recipeSchema);
 
-export default Recipe;

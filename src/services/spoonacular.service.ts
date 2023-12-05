@@ -1,24 +1,39 @@
 import { ofetch } from 'ofetch';
 
-export class SpoonacularService {
-    private apiKey: string;
-    private baseUrl: string;
-
+class SpoonacularService {
+    protected apiKey: string;
+    protected baseUrl: string;
+    protected client: any;
     constructor() {
-        this.apiKey = 'YOUR_SPOONACULAR_API_KEY'; // Replace with your API key
-        this.baseUrl = 'https://api.spoonacular.com';
+        this.apiKey = process.env.API_KEY; // Replace with your API key
+        this.baseUrl = process.env.API_HOST;
+        this.client = ofetch.create({
+            baseURL: this.baseUrl,
+            headers: {
+                'X-RapidAPI-Key': this.apiKey,
+                'X-RapidAPI-Host': this.baseUrl
+            }
+
+        });
     }
 
     async findRecipesByIngredients(ingredients: string[]): Promise<any> {
         try {
-            const response = await ofetch(`${this.baseUrl}/recipes/findByIngredients`, {
+            const response = await this.client(`/recipes/findByIngredients`, {
                 params: {
                     ingredients: ingredients.join(','),
-                    apiKey: this.apiKey
+                    number: 6,
+                    ignorePantry: 'true',
+                    ranking: '1'
+                },
+                headers: {
+                    'X-RapidAPI-Key': this.apiKey,
+                    'X-RapidAPI-Host': this.baseUrl
                 }
             });
             return response.json();
         } catch (error) {
+            console.error(error)
             // Handle errors appropriately
             throw error;
         }
@@ -26,10 +41,7 @@ export class SpoonacularService {
 
     async getRecipeDetails(recipeId: number): Promise<any> {
         try {
-            const response = await ofetch(`${this.baseUrl}/recipes/${recipeId}/information`, {
-                params: {
-                    apiKey: this.apiKey
-                }
+            const response = await this.client(`/recipes/${recipeId}/information`, {
             });
             return response.json();
         } catch (error) {
@@ -38,5 +50,21 @@ export class SpoonacularService {
         }
     }
 
-    // Add more methods as needed for other Spoonacular API functionalities
+    async findIngredientsByName(ingredientName: string): Promise<any> {
+        try {
+            const response = await this.client(`/food/ingredients/autocomplete`, {
+                params: {
+                    query: ingredientName,
+
+                }
+            });
+            return response.json();
+        } catch (error) {
+            // Handle errors appropriately
+            throw error;
+        }
+    }
 }
+
+
+export default SpoonacularService;
