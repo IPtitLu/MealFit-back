@@ -1,13 +1,16 @@
 import express, { Application } from "express";
+import dotenv from "dotenv"
+import userRoutes from './routes/user.route';
+import groceryRoutes from './routes/grocery.route';
+import recipeRoutes from './routes/recipe.route';
 
-import userRoutes from './routes/userRoutes';
-import groceryRoutes from './routes/groceryRoutes';
+dotenv.config()
 
 const app: Application = express();
-
 app.use(express.json());
-
+app.route('/').get((req, res) => res.send('Meal fit Express + TypeScript Server'));
 app.use('/api', userRoutes);
-app.use('/api/grocery', groceryRoutes);
+app.use('/api/groceries', groceryRoutes);
+app.use('/api/recipes', recipeRoutes);
 
 export { app };
