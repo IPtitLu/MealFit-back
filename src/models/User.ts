@@ -1,30 +1,52 @@
-import mongoose from 'mongoose';
 import bcrypt from 'bcrypt';
+import mongoose, { Document, Schema } from 'mongoose';
 
-const userSchema = new mongoose.Schema({
-  prenom: { type: String, required: true },
-  nomFamille: { type: String, required: true },
-  courriel: { type: String, required: true, unique: true },
-  hashMotDePasse: { type: String, required: true },
-  besoinsCaloriquesQuotidiens: Number,
-  poidsActuel: Number,
-  objectifPoids: Number,
-  taille: Number,
-  dateNaissance: Date,
-  genre: String,
-  niveauActivite: String,
-  ingredientsUtilisateur: [Number],
-  planningsRepas: [Number],
-  listesCourses: [Number]
+
+interface IUserInfo extends Document {
+  dailyCaloricNeeds: number;
+  weight: number;
+  weightGoal: number;
+  height: number;
+  birthDate: Date;
+  gender: string;
+  activityLevel: string;
+}
+
+const userInfoSchema = new Schema<IUserInfo>({
+  dailyCaloricNeeds: { type: Number },
+  weight: { type: Number },
+  weightGoal: { type: Number },
+  height: { type: Number },
+  birthDate: { type: Date },
+  gender: { type: String },
+  activityLevel: { type: String }
 });
 
+interface IUser extends Document {
+  firstName: string;
+  lastName: string;
+  email: string;
+  passwordHash: string;
+  profile?: IUserInfo;
+}
+
+const userSchema = new Schema<IUser>({
+  firstName: { type: String, required: true },
+  lastName: { type: String, required: true },
+  email: { type: String, required: true, unique: true },
+  passwordHash: { type: String, required: true },
+  profile: { type: userInfoSchema }
+});
+
+
+
 // Méthode pour hacher le mot de passe avant de sauvegarder l'utilisateur
-userSchema.pre('save', async function(next) {
+userSchema.pre('save', async function (next) {
   if (!this.isModified('hashMotDePasse')) return next();
-  this.hashMotDePasse = await bcrypt.hash(this.hashMotDePasse, 12);
+  this.passwordHash = await bcrypt.hash(this.passwordHash, 12);
   next();
 });
 
-const User = mongoose.model('User', userSchema);
+const User = mongoose.model<IUser>('User', userSchema);
 
 export default User;
