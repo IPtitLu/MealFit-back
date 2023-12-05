@@ -8,7 +8,7 @@ export interface IGroceryItem {
 }
 
 export interface IUserGroceryList extends Document {
-    userId: mongoose.Types.ObjectId; // Reference to the User model
+    userId?: mongoose.Types.ObjectId; // Reference to the User model
     items: IGroceryItem[]; // Array of purchased items
 }
 
