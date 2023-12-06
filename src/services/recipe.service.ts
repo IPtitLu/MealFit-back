@@ -12,6 +12,7 @@ class RecipeService {
     async getRecipesByIngredients(ingredients: string[]): Promise<IRecipe[]> {
         try {
             const recipes = await this.externalApi.findRecipesByIngredients(ingredients);
+
             return recipes;
         } catch (error) {
             throw error;
@@ -21,7 +22,8 @@ class RecipeService {
     async getRecipeDetails(recipeId: number): Promise<IRecipe> {
         try {
             const recipe = await this.externalApi.getRecipeDetails(recipeId);
-            return recipe;
+            const formatedRecipe = this.convertToObject(recipe);
+            return formatedRecipe;
         } catch (error) {
             throw error;
         }
