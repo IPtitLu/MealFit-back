@@ -1,19 +1,33 @@
+import { Types } from 'mongoose';
 import User from '../models/User';
 import bcrypt from 'bcrypt';
 
+
 export class UserService {
     async createUser(userData: any): Promise<any> {
-        const newUser = await User.create(userData);
+        const { password, email, firstName } = userData;
+        //check if user exists
+        const isUserExists = await this.checkIfUserExists(email);
+
+        if (isUserExists) {
+            throw new Error("User already exists");
+        }
+
+        const newUser = new User({ passwordHash: password, email, firstName });
+        await newUser.save();
         return newUser;
     }
 
     async getUserById(id: string): Promise<any> {
+        if (!Types.ObjectId.isValid(id)) {
+            throw new Error('Invalid id');
+        }
         const user = await User.findOne({ _id: id });
         return user;
     }
 
     async getUserByEmailAndPassword(courriel: string, password: string): Promise<any> {
-        const user = await User.findOne({ courriel: courriel });
+        const user = await User.findOne({ email: courriel });
         if (!user) {
             return null;
         }
@@ -25,6 +39,15 @@ export class UserService {
         return user;
     }
 
+    async checkIfUserExists(courriel: string): Promise<any> {
+        //check if user exists
+        const user = await User.findOne({ courriel: courriel });
+
+        if (user) {
+            return true;
+        }
+        return false;
+    }
     async updateUser(id: string, updateData: any): Promise<any> {
         if (updateData.hashMotDePasse) {
             updateData.hashMotDePasse = await bcrypt.hash(updateData.hashMotDePasse, 12);

@@ -13,7 +13,7 @@ const app: Application = express();
 app.use(express.json());
 
 // log requests
-app.use(morgan('dev'));
+/* app.use(morgan('dev')); */
 
 // enable cors
 app.use(cors());

@@ -1,8 +1,8 @@
 import bcrypt from 'bcrypt';
-import mongoose, { Document, Schema } from 'mongoose';
+import mongoose, { Model, Schema } from 'mongoose';
 
 
-interface IUserInfo extends Document {
+interface IUserInfo {
   dailyCaloricNeeds: number;
   weight: number;
   weightGoal: number;
@@ -22,17 +22,17 @@ const userInfoSchema = new Schema<IUserInfo>({
   activityLevel: { type: String }
 });
 
-interface IUser extends Document {
-  firstName: string;
-  lastName: string;
+interface IUser {
+  firstName?: string;
+  lastName?: string;
   email: string;
   passwordHash: string;
   profile?: IUserInfo;
 }
 
-const userSchema = new Schema<IUser>({
-  firstName: { type: String, required: true },
-  lastName: { type: String, required: true },
+const userSchema = new Schema<IUser, Model<IUser>>({
+  firstName: { type: String, },
+  lastName: { type: String },
   email: { type: String, required: true, unique: true },
   passwordHash: { type: String, required: true },
   profile: { type: userInfoSchema }
@@ -47,6 +47,6 @@ userSchema.pre('save', async function (next) {
   next();
 });
 
-const User = mongoose.model<IUser>('User', userSchema);
+const User = mongoose.model('User', userSchema);
 
 export default User;

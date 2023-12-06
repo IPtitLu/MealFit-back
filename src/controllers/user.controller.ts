@@ -7,20 +7,29 @@ export class UserController {
 
     constructor() {
         this.userService = new UserService();
-        this.getUser = this.getUser.bind(this);
-        this.login = this.login.bind(this);
     }
 
-    async createUser(req: Request, res: Response) {
+    createUser = async (req: Request, res: Response) => {
         try {
+            console.log(req.body);
             const newUser = await this.userService.createUser(req.body);
-            res.status(201).json(newUser);
+
+            if (!newUser) {
+                return res.status(400).json({ message: 'Utilisateur non créé' });
+            }
+            const token = await jwt.sign(
+                { id: newUser._id },
+                process.env.JWT_SECRET,
+                { expiresIn: "1h" }
+            );
+            res.status(201).json({ newUser, token });
         } catch (error) {
+            console.log(error);
             res.status(500).json({ message: error.message });
         }
     }
 
-    async getUser(req: Request, res: Response) {
+    getUser = async (req: Request, res: Response) => {
         try {
             const user = await this.userService.getUserById(req.params.id);
             if (!user) {
@@ -31,24 +40,24 @@ export class UserController {
             res.status(500).json({ message: error.message });
         }
     }
-    
-    async login(req: Request, res: Response) {
+
+    login = async (req: Request, res: Response) => {
         try {
             const user = await this.userService.getUserByEmailAndPassword(req.body.courriel, req.body.password);
 
             const token = await jwt.sign(
-                { id: user._id, firstName: user.firstName, lastName: user.lastName },
+                { id: user._id },
                 process.env.JWT_SECRET,
                 { expiresIn: "1h" }
             );
-          
+
             res.status(200).json({ token });
         } catch (error) {
             res.status(500).json({ message: error.message });
         }
     }
 
-    async updateUser(req: Request, res: Response) {
+    updateUser = async (req: Request, res: Response) => {
         try {
             const updatedUser = await this.userService.updateUser(req.params.id, req.body);
             if (!updatedUser) {
@@ -60,7 +69,7 @@ export class UserController {
         }
     }
 
-    async deleteUser(req: Request, res: Response) {
+    deleteUser = async (req: Request, res: Response) => {
         try {
             const deletedUser = await this.userService.deleteUser(req.params.id);
             if (!deletedUser) {
