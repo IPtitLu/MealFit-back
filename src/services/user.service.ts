@@ -8,7 +8,20 @@ export class UserService {
     }
 
     async getUserById(id: string): Promise<any> {
-        const user = await User.findOne({ identifiantUtilisateur: id });
+        const user = await User.findOne({ _id: id });
+        return user;
+    }
+
+    async getUserByEmailAndPassword(courriel: string, password: string): Promise<any> {
+        const user = await User.findOne({ courriel: courriel });
+        if (!user) {
+            return null;
+        }
+        const isPasswordValid = await bcrypt.compare(password, user.passwordHash);
+        if (!isPasswordValid) {
+            return null;
+        }
+
         return user;
     }
 
@@ -16,12 +29,12 @@ export class UserService {
         if (updateData.hashMotDePasse) {
             updateData.hashMotDePasse = await bcrypt.hash(updateData.hashMotDePasse, 12);
         }
-        const updatedUser = await User.findOneAndUpdate({ identifiantUtilisateur: id }, updateData, { new: true });
+        const updatedUser = await User.findOneAndUpdate({ _id: id }, updateData, { new: true });
         return updatedUser;
     }
 
     async deleteUser(id: string): Promise<any> {
-        const deletedUser = await User.findOneAndDelete({ identifiantUtilisateur: id });
+        const deletedUser = await User.findOneAndDelete({ _id: id });
         return deletedUser;
     }
 }
