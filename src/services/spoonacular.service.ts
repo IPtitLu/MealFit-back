@@ -1,3 +1,4 @@
+import { Console } from 'console';
 import { ofetch } from 'ofetch';
 
 class SpoonacularService {
@@ -9,18 +10,21 @@ class SpoonacularService {
         this.baseUrl = process.env.API_HOST;
         this.client = ofetch.create({
             baseURL: this.baseUrl,
+            query: {
+                apiKey: this.apiKey,
+            },
             headers: {
-                'X-RapidAPI-Key': this.apiKey,
-                'X-RapidAPI-Host': this.baseUrl
+                Accept: "application/json",
             }
 
         });
     }
 
     async findRecipesByIngredients(ingredients: string[]): Promise<any> {
+
         try {
             const response = await this.client(`/recipes/findByIngredients`, {
-                params: {
+                query: {
                     ingredients: ingredients.join(','),
                     number: 6,
                     ignorePantry: 'true',
@@ -31,7 +35,8 @@ class SpoonacularService {
                     'X-RapidAPI-Host': this.baseUrl
                 }
             });
-            return response.json();
+            console.log(response)
+            return response;
         } catch (error) {
             console.error(error)
             // Handle errors appropriately
