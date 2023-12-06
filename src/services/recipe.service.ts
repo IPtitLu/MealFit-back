@@ -26,6 +26,25 @@ class RecipeService {
             throw error;
         }
     }
+
+    convertToObject(recipe: any): IRecipe {
+        return {
+            title: recipe.title,
+            summary: recipe.summary,
+            servingSize: recipe.servings,
+            cookingMinutes: recipe.cookingMinutes,
+            image: recipe.image,
+            ingredients: recipe.extendedIngredients.map((ingredient) => ({
+                ingredient: ingredient.id,
+                quantity: ingredient.amount,
+                unit: ingredient.unit,
+            })),
+            instructions: recipe.instructions,
+            suitableFor: Object.keys(recipe)
+                .filter((key) => ['vegetarian', 'vegan', 'glutenFree', 'dairyFree', 'veryHealthy', 'cheap', 'veryPopular', 'sustainable'].includes(key) && recipe[key])
+                .map((key) => key.toLowerCase()),
+        };
+    }
 }
 
 export default RecipeService;

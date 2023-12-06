@@ -30,10 +30,6 @@ class SpoonacularService {
                     ignorePantry: 'true',
                     ranking: '1'
                 },
-                headers: {
-                    'X-RapidAPI-Key': this.apiKey,
-                    'X-RapidAPI-Host': this.baseUrl
-                }
             });
             console.log(response)
             return response;
@@ -48,7 +44,7 @@ class SpoonacularService {
         try {
             const response = await this.client(`/recipes/${recipeId}/information`, {
             });
-            return response.json();
+            return response;
         } catch (error) {
             // Handle errors appropriately
             throw error;
@@ -63,7 +59,7 @@ class SpoonacularService {
 
                 }
             });
-            return response.json();
+            return response;
         } catch (error) {
             // Handle errors appropriately
             throw error;

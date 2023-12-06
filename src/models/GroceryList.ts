@@ -1,4 +1,4 @@
-import mongoose, { Schema, Document, Types } from 'mongoose';
+import mongoose, { Schema, Types } from 'mongoose';
 
 export interface IGroceryItem {
     ingredientId: Types.ObjectId; // Reference to the Ingredient model
@@ -7,7 +7,7 @@ export interface IGroceryItem {
     purchaseDate?: Date; // Date when the item was purchased
 }
 
-export interface IUserGroceryList extends Document {
+export interface IUserGroceryList {
     userId?: mongoose.Types.ObjectId; // Reference to the User model
     items: IGroceryItem[]; // Array of purchased items
 }
@@ -24,6 +24,6 @@ const userGroceryListSchema = new Schema({
     items: [groceryItemSchema] // Array of grocery items
 });
 
-export const GroceryList = mongoose.model<IUserGroceryList>('GroceryList', userGroceryListSchema);
+export const GroceryList = mongoose.model('GroceryList', userGroceryListSchema);
 
 
