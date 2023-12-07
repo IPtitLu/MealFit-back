@@ -14,8 +14,8 @@ export interface IUserGroceryList {
 
 const groceryItemSchema = new Schema({
     ingredientId: { type: Schema.Types.ObjectId, ref: 'Ingredient', required: true, set: v => new Types.ObjectId(v) },
-    qty: { type: Number, required: true },
-    unit: { type: String, required: true },
+    qty: { type: Number, default: 1 },
+    unit: { type: String },
     purchaseDate: { type: Date, default: Date.now }
 });
 

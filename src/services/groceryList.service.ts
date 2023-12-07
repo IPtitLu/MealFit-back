@@ -82,12 +82,16 @@ class GroceryListService {
         }
     }
 
-    async addGroceryList(userId: string | null, groceryList: string[]) {
+    async addGroceryList(userId: string | null, items: string[] = []) {
 
         try {
-            // Call SpoonacularService to find ingredient
+
+            //Save list of item to grocery list
+            const groceryList = new UserGroceryList({ userId, items });
+            await groceryList.save();
+            return groceryList
         } catch (error) {
-            throw error;
+            throw new Error(error);
         }
 
 

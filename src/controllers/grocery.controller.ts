@@ -1,5 +1,6 @@
 import GroceryListService from '../services/groceryList.service';
-
+import { AuthRequest } from '../types';
+import { Response } from 'express';
 class GroceryListController {
 
     private groceryService: GroceryListService;
@@ -43,14 +44,18 @@ class GroceryListController {
 
     }
 
-    addGroceryList = async (req, res) => {
+    addGroceryList = async (req: AuthRequest, res: Response) => {
         // Extract details from req and call GroceryListService.addGroceryList
         const userId = req.params.userId;
-        const { name, items } = req.body;
+
+
 
         try {
+
+            //check if req.user.id === userId
+            if (String(req.user._id) !== userId) throw new Error('Unauthorized');
             // Call GroceryListService.addGroceryList
-            const groceryList = await this.groceryService.addGroceryList(userId, name, items);
+            const groceryList = await this.groceryService.addGroceryList(userId, req.body);
 
             // Return the grocery list as a JSON response
             res.json(groceryList);
