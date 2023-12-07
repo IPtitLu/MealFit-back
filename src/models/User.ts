@@ -2,7 +2,7 @@ import bcrypt from 'bcrypt';
 import mongoose, { Model, Schema } from 'mongoose';
 
 
-interface IUserInfo {
+export interface IUserInfo {
   dailyCaloricNeeds: number;
   weight: number;
   weightGoal: number;
@@ -22,7 +22,7 @@ const userInfoSchema = new Schema<IUserInfo>({
   activityLevel: { type: String }
 });
 
-interface IUser {
+export interface IUser {
   firstName?: string;
   lastName?: string;
   email: string;
@@ -47,6 +47,6 @@ userSchema.pre('save', async function (next) {
   next();
 });
 
-const User = mongoose.model('User', userSchema);
+export const User = mongoose.model('User', userSchema);
 
-export default User;
+

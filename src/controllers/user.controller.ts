@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { UserService } from '../services/user.service';
 import * as jwt from 'jsonwebtoken';
+import { AuthRequest } from '../types';
 
 export class UserController {
     private userService: UserService;
@@ -20,7 +21,7 @@ export class UserController {
             const token = await jwt.sign(
                 { id: newUser._id },
                 process.env.JWT_SECRET,
-                { expiresIn: "1h" }
+                { expiresIn: "2h" }
             );
             res.status(201).json({ newUser, token });
         } catch (error) {
@@ -40,6 +41,14 @@ export class UserController {
             res.status(500).json({ message: error.message });
         }
     }
+    getMe = async (req: AuthRequest, res: Response) => {
+        try {
+
+            res.status(200).json(req.user);
+        } catch (error) {
+            res.status(500).json({ message: error.message });
+        }
+    }
 
     login = async (req: Request, res: Response) => {
         try {
@@ -49,7 +58,7 @@ export class UserController {
             const token = await jwt.sign(
                 { id: user._id },
                 process.env.JWT_SECRET,
-                { expiresIn: "1h" }
+                { expiresIn: "2h" }
             );
 
             res.status(200).json({ user, token });
@@ -58,7 +67,7 @@ export class UserController {
         }
     }
 
-    updateUser = async (req: Request, res: Response) => {
+    updateUser = async (req: AuthRequest, res: Response) => {
         try {
             const updatedUser = await this.userService.updateUser(req.params.id, req.body);
             if (!updatedUser) {
@@ -70,13 +79,28 @@ export class UserController {
         }
     }
 
-    deleteUser = async (req: Request, res: Response) => {
+    deleteUser = async (req: AuthRequest, res: Response) => {
         try {
             const deletedUser = await this.userService.deleteUser(req.params.id);
             if (!deletedUser) {
                 return res.status(404).json({ message: 'Utilisateur non trouvé' });
             }
             res.status(200).json({ message: 'Utilisateur supprimé' });
+        } catch (error) {
+            res.status(500).json({ message: error.message });
+        }
+    }
+
+    renewToken = async (req: AuthRequest, res: Response) => {
+        try {
+
+            const renewedToken = jwt.sign(
+                { id: req.user._id.toString() },
+                process.env.JWT_SECRET,
+                { expiresIn: "2h" }
+            );
+
+            res.status(200).json({ token: renewedToken });
         } catch (error) {
             res.status(500).json({ message: error.message });
         }
