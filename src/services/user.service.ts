@@ -5,7 +5,7 @@ import bcrypt from 'bcrypt';
 
 export class UserService {
     async createUser(userData: any): Promise<any> {
-        const { password, email, firstName } = userData;
+        const { password, email, firstName, lastName } = userData;
         //check if user exists
         const isUserExists = await this.checkIfUserExists(email);
 
@@ -13,7 +13,7 @@ export class UserService {
             throw new Error("User already exists");
         }
 
-        const newUser = new User({ passwordHash: password, email, firstName });
+        const newUser = new User({ passwordHash: password, email, firstName, lastName });
         await newUser.save();
         return newUser;
     }
