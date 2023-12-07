@@ -57,6 +57,16 @@ class RecipeController {
             res.status(500).json({ error: error.message });
         }
     }
-}
 
+    removeFavoriteRecipe = async (req: AuthRequest, res: Response) => {
+        const userId = req.params.userId;
+        const recipeId = req.params.recipeId;
+        try {
+            const user = await this.userService.removeFavoriteRecipe(userId, recipeId);
+            res.json(user);
+        } catch (error) {
+            res.status(500).json({ error: error.message });
+        }
+    }
+}
 export default RecipeController;
