@@ -82,9 +82,17 @@ class GroceryListService {
         }
     }
 
-    async addGroceryList(userId: string | null, items: string[] = []) {
+    async addGroceryList(userId: string | null, groceryList: string[] = []) {
 
+        const items = groceryList.map((item) => {
+            return {
+                name: item
+                /*  qty?: Number(itemDetails[1]),
+                 unit?: itemDetails[2] */
+            }
+        })
         try {
+            //loop through grocery list to create item
 
             //Save list of item to grocery list
             const groceryList = new UserGroceryList({ userId, items });

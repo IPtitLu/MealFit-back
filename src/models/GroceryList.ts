@@ -1,9 +1,10 @@
 import mongoose, { Schema, Types } from 'mongoose';
 
 export interface IGroceryItem {
-    ingredientId: Types.ObjectId; // Reference to the Ingredient model
-    qty: number; // Quantity of the ingredient the user has purchased
-    unit: string; // Unit of the quantity (e.g., grams, cups)
+    /*  ingredientId: Types.ObjectId; */ // Reference to the Ingredient model
+    name: string;
+    qty?: number; // Quantity of the ingredient the user has purchased
+    unit?: string; // Unit of the quantity (e.g., grams, cups)
     purchaseDate?: Date; // Date when the item was purchased
 }
 
@@ -13,7 +14,8 @@ export interface IUserGroceryList {
 }
 
 const groceryItemSchema = new Schema({
-    ingredientId: { type: Schema.Types.ObjectId, ref: 'Ingredient', required: true, set: v => new Types.ObjectId(v) },
+    /*  ingredientId: { type: Schema.Types.ObjectId, ref: 'Ingredient', required: true, set: v => new Types.ObjectId(v) }, */
+    name: { type: String, required: true },
     qty: { type: Number, default: 1 },
     unit: { type: String },
     purchaseDate: { type: Date, default: Date.now }
