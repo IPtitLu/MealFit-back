@@ -1,10 +1,22 @@
+import Redis from "ioredis";
 import mongoose from 'mongoose';
 import 'dotenv/config';
 import { app } from "./app";
 
+
+
+
 const PORT = process.env.PORT || 3333;
 
 const mongoURI = process.env.MONGO_URI;
+
+
+
+
+
+
+
+
 
 //connect to MongoDB
 mongoose.connect(mongoURI)
@@ -19,3 +31,4 @@ mongoose.connect(mongoURI)
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
+
