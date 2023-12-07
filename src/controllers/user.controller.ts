@@ -43,7 +43,8 @@ export class UserController {
 
     login = async (req: Request, res: Response) => {
         try {
-            const user = await this.userService.getUserByEmailAndPassword(req.body.courriel, req.body.password);
+            const { email, password } = req.body;
+            const user = await this.userService.getUserByEmailAndPassword(email, password);
 
             const token = await jwt.sign(
                 { id: user._id },
@@ -51,7 +52,7 @@ export class UserController {
                 { expiresIn: "1h" }
             );
 
-            res.status(200).json({ token });
+            res.status(200).json({ user, token });
         } catch (error) {
             res.status(500).json({ message: error.message });
         }
