@@ -3,7 +3,7 @@ import GroceryListController from '../controllers/grocery.controller';
 
 const router: Router = express.Router();
 const GroceryController = new GroceryListController();
-router.post('/add', GroceryController.addGroceryList);
+router.post('/:userId/add', GroceryController.addGroceryList);
 router.get('/:userId', GroceryController.getGroceryList);
 router.put('/update/:itemId', GroceryController.updateGroceryItem);
 
