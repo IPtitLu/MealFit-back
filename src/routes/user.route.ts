@@ -8,8 +8,9 @@ const userController = new UserController();
 router.post('/users/register', userController.createUser);
 router.post('/users/login', userController.login);
 router.post('/users/renewtoken', verifyToken, userController.renewToken);
-router.get('/users/:id', verifyToken, userController.getUser);
 router.get('/users/me', verifyToken, userController.getMe);
+router.get('/users/:id', verifyToken, userController.getUser);
+
 router.put('/users/:id', verifyToken, userController.updateUser);
 router.delete('/users/:id', verifyToken, userController.deleteUser);
 
