@@ -8,7 +8,7 @@ class GroceryListController {
         this.groceryService = new GroceryListService();
     }
 
-    async addGroceryItem(req, res) {
+    addGroceryItem = async (req, res) => {
         // Extract details from req and call GroceryListService.addGroceryItem
         const userId = req.params.userId;
         const { id, qty, unit } = req.body;
@@ -25,7 +25,7 @@ class GroceryListController {
         }
     }
 
-    async getGroceryList(req, res) {
+    getGroceryList = async (req, res) => {
 
         // Extract userId from req
         const userId = req.params.userId;
@@ -43,7 +43,24 @@ class GroceryListController {
 
     }
 
-    async updateGroceryItem(req, res) {
+    addGroceryList = async (req, res) => {
+        // Extract details from req and call GroceryListService.addGroceryList
+        const userId = req.params.userId;
+        const { name, items } = req.body;
+
+        try {
+            // Call GroceryListService.addGroceryList
+            const groceryList = await this.groceryService.addGroceryList(userId, name, items);
+
+            // Return the grocery list as a JSON response
+            res.json(groceryList);
+        } catch (error) {
+            // Return an error as a JSON response
+            res.status(500).json({ error: error.message });
+        }
+    }
+
+    updateGroceryItem = async (req, res) => {
         // Extract details and call GroceryListService.updateGroceryItem
     }
 
