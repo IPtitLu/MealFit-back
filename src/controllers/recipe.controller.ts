@@ -29,7 +29,19 @@ class RecipeController {
     }
 
     getRecipesByQuery = async (req: Request, res: Response) => {
+        // Extract query from req
 
+
+        try {
+            // Call RecipeService.getRecipesByQuery
+            const recipes = await this.recipeService.getRecipesByQueryAndFilter(req.query);
+
+            // Return the recipes as a JSON response
+            res.json(recipes);
+        } catch (error) {
+            // Return an error as a JSON response
+            res.status(500).json({ error: error.message });
+        }
     }
     getRecipeDetails = async (req: Request, res: Response) => {
         // Extract recipeId from req

@@ -6,7 +6,7 @@ const recipeController = new RecipeController();
 
 router.post('/suggest', recipeController.getRecipesByIngredients);
 router.get('/:id', recipeController.getRecipeDetails);
-
+router.post('/search', recipeController.getRecipesByQuery);
 /* router.put('/:id', recipeController.updateRecipe);
 router.delete('/:id', recipeController.deleteRecipe);
  */

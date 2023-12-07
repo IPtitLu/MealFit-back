@@ -1,5 +1,6 @@
 import { Console } from 'console';
 import { ofetch } from 'ofetch';
+import { RecipeQueryFilter } from '../types';
 
 class SpoonacularService {
     protected apiKey: string;
@@ -56,6 +57,20 @@ class SpoonacularService {
                 params: {
                     query: ingredientName,
 
+                }
+            });
+            return response;
+        } catch (error) {
+            // Handle errors appropriately
+            throw error;
+        }
+    }
+
+    async findRecipesByQuery(filter: RecipeQueryFilter): Promise<any> {
+        try {
+            const response = await this.client(`/recipes/complexSearch`, {
+                params: {
+                    ...filter,
                 }
             });
             return response;

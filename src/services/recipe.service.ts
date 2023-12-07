@@ -1,4 +1,5 @@
 import { IRecipe, Recipe } from '../models/Recipe';
+import { RecipeQueryFilter } from '../types';
 import SpoonacularService from './spoonacular.service';
 
 class RecipeService {
@@ -24,6 +25,15 @@ class RecipeService {
             const recipe = await this.externalApi.getRecipeDetails(recipeId);
             const formatedRecipe = this.convertToObject(recipe);
             return formatedRecipe;
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    async getRecipesByQueryAndFilter(query: RecipeQueryFilter): Promise<IRecipe[]> {
+        try {
+            const recipes = await this.externalApi.findRecipesByQuery(query);
+            return recipes;
         } catch (error) {
             throw error;
         }
