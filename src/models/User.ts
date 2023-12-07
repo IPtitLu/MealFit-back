@@ -1,5 +1,6 @@
 import bcrypt from 'bcrypt';
-import mongoose, { Model, Schema } from 'mongoose';
+import mongoose, { Model, Schema, Types } from 'mongoose';
+import { IRecipe } from './Recipe';
 
 
 export interface IUserInfo {
@@ -28,6 +29,7 @@ export interface IUser {
   email: string;
   passwordHash: string;
   profile?: IUserInfo;
+  favoriteRecipes?: string[];
 }
 
 const userSchema = new Schema<IUser, Model<IUser>>({
@@ -35,7 +37,8 @@ const userSchema = new Schema<IUser, Model<IUser>>({
   lastName: { type: String },
   email: { type: String, required: true, unique: true },
   passwordHash: { type: String, required: true },
-  profile: { type: userInfoSchema }
+  profile: { type: userInfoSchema },
+  favoriteRecipes: [{ type: String }] // Reference to Recipe model
 });
 
 
