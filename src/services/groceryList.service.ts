@@ -29,7 +29,7 @@ class GroceryListService {
 
     async getGroceryList(userId: string) {
         try {
-            const groceryList = await UserGroceryList.findOne({ userId }).populate('items.ingredientId');
+            const groceryList = await UserGroceryList.findOne({ userId });
             return groceryList ? groceryList.items : [];
         } catch (error) {
             throw error;
