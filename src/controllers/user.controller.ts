@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { UserService } from '../services/user.service';
 import * as jwt from 'jsonwebtoken';
+import { AuthRequest } from '../types';
 
 export class UserController {
     private userService: UserService;
@@ -58,7 +59,7 @@ export class UserController {
         }
     }
 
-    updateUser = async (req: Request, res: Response) => {
+    updateUser = async (req: AuthRequest, res: Response) => {
         try {
             const updatedUser = await this.userService.updateUser(req.params.id, req.body);
             if (!updatedUser) {
@@ -70,7 +71,7 @@ export class UserController {
         }
     }
 
-    deleteUser = async (req: Request, res: Response) => {
+    deleteUser = async (req: AuthRequest, res: Response) => {
         try {
             const deletedUser = await this.userService.deleteUser(req.params.id);
             if (!deletedUser) {
@@ -82,11 +83,11 @@ export class UserController {
         }
     }
 
-    renewToken = async (req: Request, res: Response) => {
+    renewToken = async (req: AuthRequest, res: Response) => {
         try {
 
             const renewedToken = jwt.sign(
-                { id: req.user.id },
+                { id: req.user._id.toString() },
                 process.env.JWT_SECRET,
                 { expiresIn: "2h" }
             );
