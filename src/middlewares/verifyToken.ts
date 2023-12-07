@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken';
 import User from '../models/User';
 
-const verifyToken = async (req, res, next) => {
+export const verifyToken = async (req, res, next) => {
     const bearerHeader = req.headers["authorization"];
 
     if (!bearerHeader) {
