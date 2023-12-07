@@ -60,30 +60,5 @@ export class UserService {
         const deletedUser = await User.findOneAndDelete({ _id: id });
         return deletedUser;
     }
-    async addFavoriteRecipe(userId: string, recipeId: string) {
-        try {
-            const user = await User.findById(userId);
-            if (!user) {
-                throw new Error('User not found');
-            }
-            user.favoriteRecipes.push(recipeId);
-            await user.save();
-            return user;
-        } catch (error) {
-            throw error;
-        }
-    }
-    async removeFavoriteRecipe(userId: string, recipeId: string) {
-        try {
-            const user = await User.findById(userId);
-            if (!user) {
-                throw new Error('User not found');
-            }
-            user.favoriteRecipes = user.favoriteRecipes.filter((recipe: any) => recipe.toString() !== recipeId);
-            await user.save();
-            return user;
-        } catch (error) {
-            throw error;
-        }
-    }
+
 }

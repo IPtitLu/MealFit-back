@@ -43,6 +43,7 @@ class RecipeController {
             res.status(500).json({ error: error.message });
         }
     }
+
     getRecipeDetails = async (req: Request, res: Response) => {
         // Extract recipeId from req
         const recipeId: number = parseInt(req.params.id);
@@ -63,7 +64,16 @@ class RecipeController {
         const userId = req.params.userId;
         const recipeId = req.body.recipeId;
         try {
-            const user = await this.userService.addFavoriteRecipe(userId, recipeId);
+            const user = await this.recipeService.addFavoriteRecipe(userId, recipeId);
+            res.json(user);
+        } catch (error) {
+            res.status(500).json({ error: error.message });
+        }
+    }
+    getFavoritesRecipes = async (req: AuthRequest, res: Response) => {
+        const userId = req.params.userId;
+        try {
+            const user = await this.recipeService.getFavoritesRecipes(userId);
             res.json(user);
         } catch (error) {
             res.status(500).json({ error: error.message });
@@ -74,7 +84,7 @@ class RecipeController {
         const userId = req.params.userId;
         const recipeId = req.params.recipeId;
         try {
-            const user = await this.userService.removeFavoriteRecipe(userId, recipeId);
+            const user = await this.recipeService.removeFavoriteRecipe(userId, recipeId);
             res.json(user);
         } catch (error) {
             res.status(500).json({ error: error.message });
