@@ -20,7 +20,7 @@ export class UserController {
             const token = await jwt.sign(
                 { id: newUser._id },
                 process.env.JWT_SECRET,
-                { expiresIn: "1h" }
+                { expiresIn: "2h" }
             );
             res.status(201).json({ newUser, token });
         } catch (error) {
@@ -49,7 +49,7 @@ export class UserController {
             const token = await jwt.sign(
                 { id: user._id },
                 process.env.JWT_SECRET,
-                { expiresIn: "1h" }
+                { expiresIn: "2h" }
             );
 
             res.status(200).json({ user, token });
@@ -77,6 +77,21 @@ export class UserController {
                 return res.status(404).json({ message: 'Utilisateur non trouvé' });
             }
             res.status(200).json({ message: 'Utilisateur supprimé' });
+        } catch (error) {
+            res.status(500).json({ message: error.message });
+        }
+    }
+
+    renewToken = async (req: Request, res: Response) => {
+        try {
+
+            const renewedToken = jwt.sign(
+                { id: req.user.id },
+                process.env.JWT_SECRET,
+                { expiresIn: "2h" }
+            );
+
+            res.status(200).json({ token: renewedToken });
         } catch (error) {
             res.status(500).json({ message: error.message });
         }
