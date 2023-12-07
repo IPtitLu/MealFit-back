@@ -22,7 +22,7 @@ app.use(cors());
 app.route('/').get((req, res) => res.send('Meal fit Express + TypeScript Server'));
 
 // routes
-app.use('/api', userRoutes);
+app.use('/api/users', userRoutes);
 app.use('/api/groceries', groceryRoutes);
 app.use('/api/recipes', recipeRoutes);
 
