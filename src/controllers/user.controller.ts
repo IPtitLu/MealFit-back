@@ -43,7 +43,8 @@ export class UserController {
 
     login = async (req: Request, res: Response) => {
         try {
-            const user = await this.userService.getUserByEmailAndPassword(req.body.courriel, req.body.password);
+            const { email, password } = req.body;
+            const user = await this.userService.getUserByEmailAndPassword(email, password);
 
             const token = await jwt.sign(
                 { id: user._id },

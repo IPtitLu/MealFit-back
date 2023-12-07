@@ -42,7 +42,7 @@ const userSchema = new Schema<IUser, Model<IUser>>({
 
 // Méthode pour hacher le mot de passe avant de sauvegarder l'utilisateur
 userSchema.pre('save', async function (next) {
-  if (!this.isModified('hashMotDePasse')) return next();
+  if (!this.isModified('passwordHash')) return next();
   this.passwordHash = await bcrypt.hash(this.passwordHash, 12);
   next();
 });

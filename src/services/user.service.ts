@@ -26,22 +26,22 @@ export class UserService {
         return user;
     }
 
-    async getUserByEmailAndPassword(courriel: string, password: string): Promise<any> {
-        const user = await User.findOne({ email: courriel });
+    async getUserByEmailAndPassword(email: string, password: string): Promise<any> {
+        const user = await User.findOne({ email: email });
         if (!user) {
-            return null;
+            throw new Error("User not found");
         }
         const isPasswordValid = await bcrypt.compare(password, user.passwordHash);
         if (!isPasswordValid) {
-            return null;
+            throw new Error("Wrong password or email");
         }
-
+        delete user.passwordHash;
         return user;
     }
 
-    async checkIfUserExists(courriel: string): Promise<any> {
+    async checkIfUserExists(email: string): Promise<any> {
         //check if user exists
-        const user = await User.findOne({ courriel: courriel });
+        const user = await User.findOne({ email: email });
 
         if (user) {
             return true;
